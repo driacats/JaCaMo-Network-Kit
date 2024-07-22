@@ -1,0 +1,7 @@
+mas sample_mas {
+
+    agent sample_agent:sample_agent.asl{
+        goals: start_ws_server
+    }
+    
+}
