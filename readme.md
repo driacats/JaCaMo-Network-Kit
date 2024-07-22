@@ -131,5 +131,42 @@ public class sampleWsServer extends Artifact implements WsServerMsgHandler {
 
 And you are done! Now your agent can receive and send messages as a Websocket server!
 
-### HTTP Connection
+### HTTP Client Connection
 
+This folder contains the artifacts that are needed to create an HTTP Client connection for a JaCaMo agent.
+
+The artifact does not need any additional library with respect to the standard Java libraries. In the `HTTP` folder you can find the Artifact to create the connection. You have just to copy the folder inside your project, add the path in the `build.gradle` file and you can import and use it as follows:
+
+```java
+import cartago.*;
+
+import HTTP.HttpClient;
+
+public class ARTIFACT_NAME extends Artifact {
+  private final int port = 8080; // HTTP Server port
+  private final String host = "localhost"; // HTTP Server Address
+  private HttpClient conn; // HTTP Client->Server connection
+
+  // init creates the connection between each agent and the server
+  @OPERATION
+  public void init() throws Exception {
+    conn = new HttpClient( "http://" + host + ":" + port, "POST" );
+    conn.setMsgHandler( this::handleMsg );
+  }
+
+  @OPERATION
+  public void send( String msg ) throws Exception {
+  	conn.send( msg );
+  }
+
+  public void handleMsg( String msg ) {
+		// Handle the message as you want
+  }
+}
+```
+
+The `send` method allows the agent to send an HTTP `POST` request, while the `handleMsg` is called when a message is received.
+
+## Instrumentations
+
+TBD
