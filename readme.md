@@ -64,22 +64,22 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class ARTIFACT_NAME extends Artifact implements WsClientMsgHandler {
-    
-    private int port = YOUR_PORT;
-    private String host = YOUR_HOST;
-    private WsClient conn;
 
-    @OPERATION
-    public void init() throws URISyntaxException {
-        conn = new WsClient( new URI( "ws://" + host + ":" + port ) );
-        conn.setMsgHandler( this::handleMsg );
-        conn.connect();
-    }
+  private int port = YOUR_PORT; // Websocket Server port
+  private String host = YOUR_HOST; // Websocket Server Address
+  private WsClient conn; // Websocket Client->Server connection
 
-    @Override
-    public synchronized void handleMsg( String msg ) {
-        // Handle the message as you want
-    }
+  @OPERATION
+  public void init() throws URISyntaxException {
+    conn = new WsClient( new URI( "ws://" + host + ":" + port ) );
+    conn.setMsgHandler( this::handleMsg );
+    conn.connect();
+  }
+
+  @Override
+  public synchronized void handleMsg( String msg ) {
+  	// Handle the message as you want
+  }
 }
 ```
 This way, the artifact used by the agent creates a new connection ad `init()` and it handles the messages with its own function, making the messages received open to the agent.
@@ -107,17 +107,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class sampleWsServer extends Artifact implements WsServerMsgHandler {
-    
-  private final int port = 9080; 						// Websocket Server port
-  private final String host = "localhost";	// Websocket Server Address
-	private WsServer conn; 										// Websocket Client->Server connection
+
+  private final int port = 9080; // Websocket Server port
+  private final String host = "localhost"; // Websocket Server Address
+  private WsServer conn; // Websocket Server connection
 
   // init creates the connection between each agent and the server
   @OPERATION
   public void init() throws URISyntaxException {
     conn = new WsServer( new InetSocketAddress( "ws://" + host, port ) );
-    // With the line below we set the handler of the income messages with an OPERATION function
-    // This way, we can interact with the agent directly via websocket
     conn.setMsgHandler( this::handleMsg ); 
   }
 
