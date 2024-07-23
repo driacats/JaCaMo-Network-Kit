@@ -42,8 +42,8 @@ sourceSets {
             //srcDir 'src/env'
             srcDir 'src/agt'
             srcDir 'src/env'
-            srcDir '../HTTP/'
-            srcDir '../WebSocket/'
+            srcDir '../Artifacts/HTTP/'
+            srcDir '../Artifacts/WebSocket/'
         }
     }
 }
